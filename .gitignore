@@ -1,0 +1,5 @@
+# File chay sinh ra khi bien dich (khong dua len git)
+*.exe
+*.o
+des_aes
+.vscode/

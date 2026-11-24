@@ -1,0 +1,16 @@
+==============================================================================
+ KIEM TRA NHANH TAT CA TEST VECTOR
+==============================================================================
+ DES:
+  [PASS] DES vi du kinh dien (J. Orlin Grabbe)  -> ciphertext = 85E813540F0AB405
+  [PASS] DES vi du giao trinh Stallings  -> ciphertext = DA02CE3A89ECAC3B
+  [PASS] DES 'Now is t' (FIPS 81)  -> ciphertext = 3FA40E8A984D4815
+  [PASS] DES ban ma toan so 0  -> ciphertext = 0000000000000000
+ AES-128:
+  [PASS] AES FIPS-197 Appendix B  -> ciphertext = 3925841d02dc09fbdc118597196a0b32
+  [PASS] AES FIPS-197 Appendix C.1  -> ciphertext = 69c4e0d86a7b0430d8cdb78070b4c55a
+  [PASS] AES vi du giao trinh Stallings  -> ciphertext = ff0b844a0853bf7c6934ab4364148fb9
+  [PASS] AES 'Two One Nine Two' / 'Thats my Kung Fu'  -> ciphertext = 29c3505f571420f6402299b31a02d73a
+==============================================================================
+ TAT CA DEU PASS
+==============================================================================
