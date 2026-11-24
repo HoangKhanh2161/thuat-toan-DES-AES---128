@@ -226,5 +226,3 @@ Ngoài 8 test vector ở trên, khi phát triển code còn được kiểm tra 
 - Mỗi hàng của 8 hộp S trong DES là một hoán vị của 0..15; IP và IP⁻¹ là nghịch đảo của nhau.
 - Phép thử DES của Rivest (16 lần mã hoá/giải mã liên tiếp, kết quả cuối `1B1A2DDB4C642438`) cho kết quả đúng.
 - 2000 bộ khoá / bản rõ AES ngẫu nhiên: giải mã luôn ra đúng bản rõ.
-
-*Ghi chú: bài tập cho phép "vibe code"; code được viết với sự hỗ trợ của AI và đã được kiểm tra bằng các test vector chuẩn ở trên.*
