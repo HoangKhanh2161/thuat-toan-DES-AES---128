@@ -1,11 +1,11 @@
 # ==================================================================
 #  Makefile - dung cho Linux / macOS (hoac Windows co mingw32-make)
 #    make          -> bien dich ra file des_aes
-#    make results  -> chay tat ca test vector, ghi vao thu muc results/
+#    make results  -> chay tat ca test vector, ghi tung file vao thu muc results/
 #    make clean    -> xoa file chay
 # ==================================================================
 CXX      = g++
-CXXFLAGS = -std=c++17 -Wall -O2 -Iinclude
+CXXFLAGS = -std=c++17 -Wall -O2 -static -Iinclude
 SRC      = src/main.cpp src/utils.cpp src/des.cpp src/aes.cpp
 TARGET   = des_aes
 
@@ -14,10 +14,7 @@ $(TARGET): $(SRC) include/*.h
 
 results: $(TARGET)
 	mkdir -p results
-	./$(TARGET) des   > results/des_result.txt
-	./$(TARGET) aes   > results/aes_result.txt
-	./$(TARGET) check > results/summary.txt
-	cat results/summary.txt
+	./$(TARGET) export
 
 clean:
 	rm -f $(TARGET) $(TARGET).exe

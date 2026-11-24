@@ -1,0 +1,424 @@
+
+
+******************************************************************************
+ TEST VECTOR: AES vi du giao trinh Stallings
+******************************************************************************
+
+==============================================================================
+ AES-128 ENCRYPTION
+==============================================================================
+  Key       = 0f1571c947d9e8590cb7add6af7f6798
+  Plaintext = 0123456789abcdeffedcba9876543210
+
+------------------------------------------------------------------------------
+ KEY EXPANSION - mo rong khoa 128 bit thanh 44 word w[0..43]
+------------------------------------------------------------------------------
+  w[ 0] = 0f1571c9   (lay truc tiep tu khoa)
+  w[ 1] = 47d9e859   (lay truc tiep tu khoa)
+  w[ 2] = 0cb7add6   (lay truc tiep tu khoa)
+  w[ 3] = af7f6798   (lay truc tiep tu khoa)
+
+   i  temp      RotWord   SubWord   Rcon      XOR Rcon  w[i-4]    w[i] = temp XOR w[i-4]
+   4  af7f6798  7f6798af  d2854679  01000000  d3854679  0f1571c9  dc9037b0
+   5  dc9037b0                                          47d9e859  9b49dfe9
+   6  9b49dfe9                                          0cb7add6  97fe723f
+   7  97fe723f                                          af7f6798  388115a7
+   8  388115a7  8115a738  0c595c07  02000000  0e595c07  dc9037b0  d2c96bb7
+   9  d2c96bb7                                          9b49dfe9  4980b45e
+  10  4980b45e                                          97fe723f  de7ec661
+  11  de7ec661                                          388115a7  e6ffd3c6
+  12  e6ffd3c6  ffd3c6e6  1666b48e  04000000  1266b48e  d2c96bb7  c0afdf39
+  13  c0afdf39                                          4980b45e  892f6b67
+  14  892f6b67                                          de7ec661  5751ad06
+  15  5751ad06                                          e6ffd3c6  b1ae7ec0
+  16  b1ae7ec0  ae7ec0b1  e4f3bac8  08000000  ecf3bac8  c0afdf39  2c5c65f1
+  17  2c5c65f1                                          892f6b67  a5730e96
+  18  a5730e96                                          5751ad06  f222a390
+  19  f222a390                                          b1ae7ec0  438cdd50
+  20  438cdd50  8cdd5043  64c1531a  10000000  74c1531a  2c5c65f1  589d36eb
+  21  589d36eb                                          a5730e96  fdee387d
+  22  fdee387d                                          f222a390  0fcc9bed
+  23  0fcc9bed                                          438cdd50  4c4046bd
+  24  4c4046bd  4046bd4c  095a7a29  20000000  295a7a29  589d36eb  71c74cc2
+  25  71c74cc2                                          fdee387d  8c2974bf
+  26  8c2974bf                                          0fcc9bed  83e5ef52
+  27  83e5ef52                                          4c4046bd  cfa5a9ef
+  28  cfa5a9ef  a5a9efcf  06d3df8a  40000000  46d3df8a  71c74cc2  37149348
+  29  37149348                                          8c2974bf  bb3de7f7
+  30  bb3de7f7                                          83e5ef52  38d808a5
+  31  38d808a5                                          cfa5a9ef  f77da14a
+  32  f77da14a  7da14af7  ff32d668  80000000  7f32d668  37149348  48264520
+  33  48264520                                          bb3de7f7  f31ba2d7
+  34  f31ba2d7                                          38d808a5  cbc3aa72
+  35  cbc3aa72                                          f77da14a  3cbe0b38
+  36  3cbe0b38  be0b383c  ae2b07eb  1b000000  b52b07eb  48264520  fd0d42cb
+  37  fd0d42cb                                          f31ba2d7  0e16e01c
+  38  0e16e01c                                          cbc3aa72  c5d54a6e
+  39  c5d54a6e                                          3cbe0b38  f96b4156
+  40  f96b4156  6b4156f9  7f83b199  36000000  4983b199  fd0d42cb  b48ef352
+  41  b48ef352                                          0e16e01c  ba98134e
+  42  ba98134e                                          c5d54a6e  7f4d5920
+  43  7f4d5920                                          f96b4156  86261876
+
+  Round keys (moi khoa vong = 4 word lien tiep):
+  K0  = w[ 0.. 3] = 0f1571c947d9e8590cb7add6af7f6798
+  K1  = w[ 4.. 7] = dc9037b09b49dfe997fe723f388115a7
+  K2  = w[ 8..11] = d2c96bb74980b45ede7ec661e6ffd3c6
+  K3  = w[12..15] = c0afdf39892f6b675751ad06b1ae7ec0
+  K4  = w[16..19] = 2c5c65f1a5730e96f222a390438cdd50
+  K5  = w[20..23] = 589d36ebfdee387d0fcc9bed4c4046bd
+  K6  = w[24..27] = 71c74cc28c2974bf83e5ef52cfa5a9ef
+  K7  = w[28..31] = 37149348bb3de7f738d808a5f77da14a
+  K8  = w[32..35] = 48264520f31ba2d7cbc3aa723cbe0b38
+  K9  = w[36..39] = fd0d42cb0e16e01cc5d54a6ef96b4156
+  K10 = w[40..43] = b48ef352ba98134e7f4d592086261876
+
+------------------------------------------------------------------------------
+ ROUND 0  (chi co AddRoundKey voi K0)
+------------------------------------------------------------------------------
+  Input         RoundKey 0    AddRoundKey
+  01 89 fe 76   0f 47 0c af   0e ce f2 d9
+  23 ab dc 54   15 d9 b7 7f   36 72 6b 2b
+  45 cd ba 32   71 e8 ad 67   34 25 17 55
+  67 ef 98 10   c9 59 d6 98   ae b6 4e 88
+    Input         : 0123456789abcdeffedcba9876543210
+    RoundKey 0    : 0f1571c947d9e8590cb7add6af7f6798
+    AddRoundKey   : 0e3634aece7225b6f26b174ed92b5588
+
+------------------------------------------------------------------------------
+ ROUND 1
+------------------------------------------------------------------------------
+  Start         SubBytes      ShiftRows     MixColumns    RoundKey 1    AddRoundKey
+  0e ce f2 d9   ab 8b 89 35   ab 8b 89 35   b9 94 57 75   dc 9b 97 38   65 0f c0 4d
+  36 72 6b 2b   05 40 7f f1   40 7f f1 05   e4 8e 16 51   90 49 fe 81   74 c7 e8 d0
+  34 25 17 55   18 3f f0 fc   f0 fc 18 3f   47 20 9a 3f   37 df 72 15   70 ff e8 2a
+  ae b6 4e 88   e4 4e 2f c4   c4 e4 4e 2f   c5 d6 f5 3b   b0 e9 3f a7   75 3f ca 9c
+    Start         : 0e3634aece7225b6f26b174ed92b5588
+    SubBytes      : ab0518e48b403f4e897ff02f35f1fcc4
+    ShiftRows     : ab40f0c48b7ffce489f1184e35053f2f
+    MixColumns    : b9e447c5948e20d657169af575513f3b
+    RoundKey 1    : dc9037b09b49dfe997fe723f388115a7
+    AddRoundKey   : 657470750fc7ff3fc0e8e8ca4dd02a9c
+
+------------------------------------------------------------------------------
+ ROUND 2
+------------------------------------------------------------------------------
+  Start         SubBytes      ShiftRows     MixColumns    RoundKey 2    AddRoundKey
+  65 0f c0 4d   4d 76 ba e3   4d 76 ba e3   8e 22 db 12   d2 49 de e6   5c 6b 05 f4
+  74 c7 e8 d0   92 c6 9b 70   c6 9b 70 92   b2 f2 dc 92   c9 80 7e ff   7b 72 a2 6d
+  70 ff e8 2a   51 16 9b e5   9b e5 51 16   df 80 f7 c1   6b b4 c6 d3   b4 34 31 12
+  75 3f ca 9c   9d 75 74 de   de 9d 75 74   2d c5 1e 52   b7 5e 61 c6   9a 9b 7f 94
+    Start         : 657470750fc7ff3fc0e8e8ca4dd02a9c
+    SubBytes      : 4d92519d76c61675ba9b9b74e370e5de
+    ShiftRows     : 4dc69bde769be59dba705175e3921674
+    MixColumns    : 8eb2df2d22f280c5dbdcf71e1292c152
+    RoundKey 2    : d2c96bb74980b45ede7ec661e6ffd3c6
+    AddRoundKey   : 5c7bb49a6b72349b05a2317ff46d1294
+
+------------------------------------------------------------------------------
+ ROUND 3
+------------------------------------------------------------------------------
+  Start         SubBytes      ShiftRows     MixColumns    RoundKey 3    AddRoundKey
+  5c 6b 05 f4   4a 7f 6b bf   4a 7f 6b bf   b1 c1 0b cc   c0 89 57 b1   71 48 5c 7d
+  7b 72 a2 6d   21 40 3a 3c   40 3a 3c 21   ba f3 8b 07   af 2f 51 ae   15 dc da a9
+  b4 34 31 12   8d 18 c7 c9   c7 c9 8d 18   f9 1f 6a c3   df 6b ad 7e   26 74 c7 bd
+  9a 9b 7f 94   b8 14 d2 22   22 b8 14 d2   1d 19 24 5c   39 67 06 c0   24 7e 22 9c
+    Start         : 5c7bb49a6b72349b05a2317ff46d1294
+    SubBytes      : 4a218db87f4018146b3ac7d2bf3cc922
+    ShiftRows     : 4a40c7227f3ac9b86b3c8d14bf2118d2
+    MixColumns    : b1baf91dc1f31f190b8b6a24cc07c35c
+    RoundKey 3    : c0afdf39892f6b675751ad06b1ae7ec0
+    AddRoundKey   : 7115262448dc747e5cdac7227da9bd9c
+
+------------------------------------------------------------------------------
+ ROUND 4
+------------------------------------------------------------------------------
+  Start         SubBytes      ShiftRows     MixColumns    RoundKey 4    AddRoundKey
+  71 48 5c 7d   a3 52 4a ff   a3 52 4a ff   d4 11 fe 0f   2c a5 f2 43   f8 b4 0c 4c
+  15 dc da a9   59 86 57 d3   86 57 d3 59   3b 44 06 73   5c 73 22 8c   67 37 24 ff
+  26 74 c7 bd   f7 92 c6 7a   c6 7a f7 92   cb ab 62 37   65 0e a3 dd   ae a5 c1 ea
+  24 7e 22 9c   36 f3 93 de   de 36 f3 93   19 b7 07 ec   f1 96 90 50   e8 21 97 bc
+    Start         : 7115262448dc747e5cdac7227da9bd9c
+    SubBytes      : a359f736528692f34a57c693ffd37ade
+    ShiftRows     : a386c6de52577a364ad3f7f3ff599293
+    MixColumns    : d43bcb191144abb7fe0662070f7337ec
+    RoundKey 4    : 2c5c65f1a5730e96f222a390438cdd50
+    AddRoundKey   : f867aee8b437a5210c24c1974cffeabc
+
+------------------------------------------------------------------------------
+ ROUND 5
+------------------------------------------------------------------------------
+  Start         SubBytes      ShiftRows     MixColumns    RoundKey 5    AddRoundKey
+  f8 b4 0c 4c   41 8d fe 29   41 8d fe 29   2a 47 c4 48   58 fd 0f 4c   72 ba cb 04
+  67 37 24 ff   85 9a 36 16   9a 36 16 85   83 e8 18 ba   9d ee cc 40   1e 06 d4 fa
+  ae a5 c1 ea   e4 06 78 87   78 87 e4 06   84 18 27 23   36 38 9b 46   b2 20 bc 65
+  e8 21 97 bc   9b fd 88 65   65 9b fd 88   eb 10 0a f3   eb 7d ed bd   00 6d e7 4e
+    Start         : f867aee8b437a5210c24c1974cffeabc
+    SubBytes      : 4185e49b8d9a06fdfe36788829168765
+    ShiftRows     : 419a78658d36879bfe16e4fd29850688
+    MixColumns    : 2a8384eb47e81810c418270a48ba23f3
+    RoundKey 5    : 589d36ebfdee387d0fcc9bed4c4046bd
+    AddRoundKey   : 721eb200ba06206dcbd4bce704fa654e
+
+------------------------------------------------------------------------------
+ ROUND 6
+------------------------------------------------------------------------------
+  Start         SubBytes      ShiftRows     MixColumns    RoundKey 6    AddRoundKey
+  72 ba cb 04   40 f4 1f f2   40 f4 1f f2   7b 05 42 4a   71 8c 83 cf   0a 89 c1 85
+  1e 06 d4 fa   72 6f 48 2d   6f 48 2d 72   1e d0 20 40   c7 29 e5 a5   d9 f9 c5 e5
+  b2 20 bc 65   37 b7 65 4d   65 4d 37 b7   94 83 18 52   4c 74 ef a9   d8 f7 f7 fb
+  00 6d e7 4e   63 3c 94 2f   2f 63 3c 94   94 c4 43 fb   c2 bf 52 ef   56 7b 11 14
+    Start         : 721eb200ba06206dcbd4bce704fa654e
+    SubBytes      : 40723763f46fb73c1f486594f22d4d2f
+    ShiftRows     : 406f652ff4484d631f2d373cf272b794
+    MixColumns    : 7b1e949405d083c4422018434a4052fb
+    RoundKey 6    : 71c74cc28c2974bf83e5ef52cfa5a9ef
+    AddRoundKey   : 0ad9d85689f9f77bc1c5f71185e5fb14
+
+------------------------------------------------------------------------------
+ ROUND 7
+------------------------------------------------------------------------------
+  Start         SubBytes      ShiftRows     MixColumns    RoundKey 7    AddRoundKey
+  0a 89 c1 85   67 a7 78 97   67 a7 78 97   ec 1a c0 80   37 bb 38 f7   db a1 f8 77
+  d9 f9 c5 e5   35 99 a6 d9   99 a6 d9 35   0c 50 53 c7   14 3d d8 7d   18 6d 8b ba
+  d8 f7 f7 fb   61 68 68 0f   68 0f 61 68   3b d7 00 ef   93 e7 08 a1   a8 30 08 4e
+  56 7b 11 14   b1 21 82 fa   fa b1 21 82   b7 22 72 e0   48 f7 a5 4a   ff d5 d7 aa
+    Start         : 0ad9d85689f9f77bc1c5f71185e5fb14
+    SubBytes      : 673561b1a799682178a6688297d90ffa
+    ShiftRows     : 679968faa7a60fb178d9612197356882
+    MixColumns    : ec0c3bb71a50d722c053007280c7efe0
+    RoundKey 7    : 37149348bb3de7f738d808a5f77da14a
+    AddRoundKey   : db18a8ffa16d30d5f88b08d777ba4eaa
+
+------------------------------------------------------------------------------
+ ROUND 8
+------------------------------------------------------------------------------
+  Start         SubBytes      ShiftRows     MixColumns    RoundKey 8    AddRoundKey
+  db a1 f8 77   b9 32 41 f5   b9 32 41 f5   b1 1a 44 17   48 f3 cb 3c   f9 e9 8f 2b
+  18 6d 8b ba   ad 3c 3d f4   3c 3d f4 ad   3d 2f ec b6   26 1b c3 be   1b 34 2f 08
+  a8 30 08 4e   c2 04 30 2f   30 2f c2 04   0a 6b 2f 42   45 a2 aa 0b   4f c9 85 49
+  ff d5 d7 aa   16 03 0e ac   ac 16 03 0e   9f 68 f3 b1   20 d7 72 38   bf bf 81 89
+    Start         : db18a8ffa16d30d5f88b08d777ba4eaa
+    SubBytes      : b9adc216323c0403413d300ef5f42fac
+    ShiftRows     : b93c30ac323d2f1641f4c203f5ad040e
+    MixColumns    : b13d0a9f1a2f6b6844ec2ff317b642b1
+    RoundKey 8    : 48264520f31ba2d7cbc3aa723cbe0b38
+    AddRoundKey   : f91b4fbfe934c9bf8f2f85812b084989
+
+------------------------------------------------------------------------------
+ ROUND 9
+------------------------------------------------------------------------------
+  Start         SubBytes      ShiftRows     MixColumns    RoundKey 9    AddRoundKey
+  f9 e9 8f 2b   99 1e 73 f1   99 1e 73 f1   31 30 3a c2   fd 0e c5 f9   cc 3e ff 3b
+  1b 34 2f 08   af 18 15 30   18 15 30 af   ac 71 8c c4   0d 16 d5 6b   a1 67 59 af
+  4f c9 85 49   84 dd 97 3b   97 3b 84 dd   46 65 48 eb   42 e0 4a 41   04 85 02 aa
+  bf bf 81 89   08 08 0c a7   a7 08 08 0c   6a 1c 31 62   cb 1c 6e 56   a1 00 5f 34
+    Start         : f91b4fbfe934c9bf8f2f85812b084989
+    SubBytes      : 99af84081e18dd087315970cf1303ba7
+    ShiftRows     : 991897a71e153b0873308408f1afdd0c
+    MixColumns    : 31ac466a3071651c3a8c4831c2c4eb62
+    RoundKey 9    : fd0d42cb0e16e01cc5d54a6ef96b4156
+    AddRoundKey   : cca104a13e678500ff59025f3bafaa34
+
+------------------------------------------------------------------------------
+ ROUND 10  (vong cuoi - KHONG co MixColumns)
+------------------------------------------------------------------------------
+  Start         SubBytes      ShiftRows     RoundKey 10   AddRoundKey
+  cc 3e ff 3b   4b b2 16 e2   4b b2 16 e2   b4 ba 7f 86   ff 08 69 64
+  a1 67 59 af   32 85 cb 79   85 cb 79 32   8e 98 4d 26   0b 53 34 14
+  04 85 02 aa   f2 97 77 ac   77 ac f2 97   f3 13 59 18   84 bf ab 8f
+  a1 00 5f 34   32 63 cf 18   18 32 63 cf   52 4e 20 76   4a 7c 43 b9
+    Start         : cca104a13e678500ff59025f3bafaa34
+    SubBytes      : 4b32f232b285976316cb77cfe279ac18
+    ShiftRows     : 4b857718b2cbac321679f263e23297cf
+    RoundKey 10   : b48ef352ba98134e7f4d592086261876
+    AddRoundKey   : ff0b844a0853bf7c6934ab4364148fb9
+
+------------------------------------------------------------------------------
+ OUTPUT
+------------------------------------------------------------------------------
+  CIPHERTEXT = ff0b844a0853bf7c6934ab4364148fb9
+
+
+==============================================================================
+ AES-128 DECRYPTION  (dung khoa vong theo thu tu nguoc K10 -> K0)
+==============================================================================
+  Key        = 0f1571c947d9e8590cb7add6af7f6798
+  Ciphertext = ff0b844a0853bf7c6934ab4364148fb9
+
+------------------------------------------------------------------------------
+ ROUND 0  (chi co AddRoundKey voi K10)
+------------------------------------------------------------------------------
+  Input         RoundKey 10   AddRoundKey
+  ff 08 69 64   b4 ba 7f 86   4b b2 16 e2
+  0b 53 34 14   8e 98 4d 26   85 cb 79 32
+  84 bf ab 8f   f3 13 59 18   77 ac f2 97
+  4a 7c 43 b9   52 4e 20 76   18 32 63 cf
+    Input         : ff0b844a0853bf7c6934ab4364148fb9
+    RoundKey 10   : b48ef352ba98134e7f4d592086261876
+    AddRoundKey   : 4b857718b2cbac321679f263e23297cf
+
+------------------------------------------------------------------------------
+ ROUND 1
+------------------------------------------------------------------------------
+  Start         InvShiftRows   InvSubBytes   RoundKey 9    AddRoundKey   InvMixColumns
+  4b b2 16 e2   4b b2 16 e2    cc 3e ff 3b   fd 0e c5 f9   31 30 3a c2   99 1e 73 f1
+  85 cb 79 32   32 85 cb 79    a1 67 59 af   0d 16 d5 6b   ac 71 8c c4   18 15 30 af
+  77 ac f2 97   f2 97 77 ac    04 85 02 aa   42 e0 4a 41   46 65 48 eb   97 3b 84 dd
+  18 32 63 cf   32 63 cf 18    a1 00 5f 34   cb 1c 6e 56   6a 1c 31 62   a7 08 08 0c
+    Start         : 4b857718b2cbac321679f263e23297cf
+    InvShiftRows  : 4b32f232b285976316cb77cfe279ac18
+    InvSubBytes   : cca104a13e678500ff59025f3bafaa34
+    RoundKey 9    : fd0d42cb0e16e01cc5d54a6ef96b4156
+    AddRoundKey   : 31ac466a3071651c3a8c4831c2c4eb62
+    InvMixColumns : 991897a71e153b0873308408f1afdd0c
+
+------------------------------------------------------------------------------
+ ROUND 2
+------------------------------------------------------------------------------
+  Start         InvShiftRows   InvSubBytes   RoundKey 8    AddRoundKey   InvMixColumns
+  99 1e 73 f1   99 1e 73 f1    f9 e9 8f 2b   48 f3 cb 3c   b1 1a 44 17   b9 32 41 f5
+  18 15 30 af   af 18 15 30    1b 34 2f 08   26 1b c3 be   3d 2f ec b6   3c 3d f4 ad
+  97 3b 84 dd   84 dd 97 3b    4f c9 85 49   45 a2 aa 0b   0a 6b 2f 42   30 2f c2 04
+  a7 08 08 0c   08 08 0c a7    bf bf 81 89   20 d7 72 38   9f 68 f3 b1   ac 16 03 0e
+    Start         : 991897a71e153b0873308408f1afdd0c
+    InvShiftRows  : 99af84081e18dd087315970cf1303ba7
+    InvSubBytes   : f91b4fbfe934c9bf8f2f85812b084989
+    RoundKey 8    : 48264520f31ba2d7cbc3aa723cbe0b38
+    AddRoundKey   : b13d0a9f1a2f6b6844ec2ff317b642b1
+    InvMixColumns : b93c30ac323d2f1641f4c203f5ad040e
+
+------------------------------------------------------------------------------
+ ROUND 3
+------------------------------------------------------------------------------
+  Start         InvShiftRows   InvSubBytes   RoundKey 7    AddRoundKey   InvMixColumns
+  b9 32 41 f5   b9 32 41 f5    db a1 f8 77   37 bb 38 f7   ec 1a c0 80   67 a7 78 97
+  3c 3d f4 ad   ad 3c 3d f4    18 6d 8b ba   14 3d d8 7d   0c 50 53 c7   99 a6 d9 35
+  30 2f c2 04   c2 04 30 2f    a8 30 08 4e   93 e7 08 a1   3b d7 00 ef   68 0f 61 68
+  ac 16 03 0e   16 03 0e ac    ff d5 d7 aa   48 f7 a5 4a   b7 22 72 e0   fa b1 21 82
+    Start         : b93c30ac323d2f1641f4c203f5ad040e
+    InvShiftRows  : b9adc216323c0403413d300ef5f42fac
+    InvSubBytes   : db18a8ffa16d30d5f88b08d777ba4eaa
+    RoundKey 7    : 37149348bb3de7f738d808a5f77da14a
+    AddRoundKey   : ec0c3bb71a50d722c053007280c7efe0
+    InvMixColumns : 679968faa7a60fb178d9612197356882
+
+------------------------------------------------------------------------------
+ ROUND 4
+------------------------------------------------------------------------------
+  Start         InvShiftRows   InvSubBytes   RoundKey 6    AddRoundKey   InvMixColumns
+  67 a7 78 97   67 a7 78 97    0a 89 c1 85   71 8c 83 cf   7b 05 42 4a   40 f4 1f f2
+  99 a6 d9 35   35 99 a6 d9    d9 f9 c5 e5   c7 29 e5 a5   1e d0 20 40   6f 48 2d 72
+  68 0f 61 68   61 68 68 0f    d8 f7 f7 fb   4c 74 ef a9   94 83 18 52   65 4d 37 b7
+  fa b1 21 82   b1 21 82 fa    56 7b 11 14   c2 bf 52 ef   94 c4 43 fb   2f 63 3c 94
+    Start         : 679968faa7a60fb178d9612197356882
+    InvShiftRows  : 673561b1a799682178a6688297d90ffa
+    InvSubBytes   : 0ad9d85689f9f77bc1c5f71185e5fb14
+    RoundKey 6    : 71c74cc28c2974bf83e5ef52cfa5a9ef
+    AddRoundKey   : 7b1e949405d083c4422018434a4052fb
+    InvMixColumns : 406f652ff4484d631f2d373cf272b794
+
+------------------------------------------------------------------------------
+ ROUND 5
+------------------------------------------------------------------------------
+  Start         InvShiftRows   InvSubBytes   RoundKey 5    AddRoundKey   InvMixColumns
+  40 f4 1f f2   40 f4 1f f2    72 ba cb 04   58 fd 0f 4c   2a 47 c4 48   41 8d fe 29
+  6f 48 2d 72   72 6f 48 2d    1e 06 d4 fa   9d ee cc 40   83 e8 18 ba   9a 36 16 85
+  65 4d 37 b7   37 b7 65 4d    b2 20 bc 65   36 38 9b 46   84 18 27 23   78 87 e4 06
+  2f 63 3c 94   63 3c 94 2f    00 6d e7 4e   eb 7d ed bd   eb 10 0a f3   65 9b fd 88
+    Start         : 406f652ff4484d631f2d373cf272b794
+    InvShiftRows  : 40723763f46fb73c1f486594f22d4d2f
+    InvSubBytes   : 721eb200ba06206dcbd4bce704fa654e
+    RoundKey 5    : 589d36ebfdee387d0fcc9bed4c4046bd
+    AddRoundKey   : 2a8384eb47e81810c418270a48ba23f3
+    InvMixColumns : 419a78658d36879bfe16e4fd29850688
+
+------------------------------------------------------------------------------
+ ROUND 6
+------------------------------------------------------------------------------
+  Start         InvShiftRows   InvSubBytes   RoundKey 4    AddRoundKey   InvMixColumns
+  41 8d fe 29   41 8d fe 29    f8 b4 0c 4c   2c a5 f2 43   d4 11 fe 0f   a3 52 4a ff
+  9a 36 16 85   85 9a 36 16    67 37 24 ff   5c 73 22 8c   3b 44 06 73   86 57 d3 59
+  78 87 e4 06   e4 06 78 87    ae a5 c1 ea   65 0e a3 dd   cb ab 62 37   c6 7a f7 92
+  65 9b fd 88   9b fd 88 65    e8 21 97 bc   f1 96 90 50   19 b7 07 ec   de 36 f3 93
+    Start         : 419a78658d36879bfe16e4fd29850688
+    InvShiftRows  : 4185e49b8d9a06fdfe36788829168765
+    InvSubBytes   : f867aee8b437a5210c24c1974cffeabc
+    RoundKey 4    : 2c5c65f1a5730e96f222a390438cdd50
+    AddRoundKey   : d43bcb191144abb7fe0662070f7337ec
+    InvMixColumns : a386c6de52577a364ad3f7f3ff599293
+
+------------------------------------------------------------------------------
+ ROUND 7
+------------------------------------------------------------------------------
+  Start         InvShiftRows   InvSubBytes   RoundKey 3    AddRoundKey   InvMixColumns
+  a3 52 4a ff   a3 52 4a ff    71 48 5c 7d   c0 89 57 b1   b1 c1 0b cc   4a 7f 6b bf
+  86 57 d3 59   59 86 57 d3    15 dc da a9   af 2f 51 ae   ba f3 8b 07   40 3a 3c 21
+  c6 7a f7 92   f7 92 c6 7a    26 74 c7 bd   df 6b ad 7e   f9 1f 6a c3   c7 c9 8d 18
+  de 36 f3 93   36 f3 93 de    24 7e 22 9c   39 67 06 c0   1d 19 24 5c   22 b8 14 d2
+    Start         : a386c6de52577a364ad3f7f3ff599293
+    InvShiftRows  : a359f736528692f34a57c693ffd37ade
+    InvSubBytes   : 7115262448dc747e5cdac7227da9bd9c
+    RoundKey 3    : c0afdf39892f6b675751ad06b1ae7ec0
+    AddRoundKey   : b1baf91dc1f31f190b8b6a24cc07c35c
+    InvMixColumns : 4a40c7227f3ac9b86b3c8d14bf2118d2
+
+------------------------------------------------------------------------------
+ ROUND 8
+------------------------------------------------------------------------------
+  Start         InvShiftRows   InvSubBytes   RoundKey 2    AddRoundKey   InvMixColumns
+  4a 7f 6b bf   4a 7f 6b bf    5c 6b 05 f4   d2 49 de e6   8e 22 db 12   4d 76 ba e3
+  40 3a 3c 21   21 40 3a 3c    7b 72 a2 6d   c9 80 7e ff   b2 f2 dc 92   c6 9b 70 92
+  c7 c9 8d 18   8d 18 c7 c9    b4 34 31 12   6b b4 c6 d3   df 80 f7 c1   9b e5 51 16
+  22 b8 14 d2   b8 14 d2 22    9a 9b 7f 94   b7 5e 61 c6   2d c5 1e 52   de 9d 75 74
+    Start         : 4a40c7227f3ac9b86b3c8d14bf2118d2
+    InvShiftRows  : 4a218db87f4018146b3ac7d2bf3cc922
+    InvSubBytes   : 5c7bb49a6b72349b05a2317ff46d1294
+    RoundKey 2    : d2c96bb74980b45ede7ec661e6ffd3c6
+    AddRoundKey   : 8eb2df2d22f280c5dbdcf71e1292c152
+    InvMixColumns : 4dc69bde769be59dba705175e3921674
+
+------------------------------------------------------------------------------
+ ROUND 9
+------------------------------------------------------------------------------
+  Start         InvShiftRows   InvSubBytes   RoundKey 1    AddRoundKey   InvMixColumns
+  4d 76 ba e3   4d 76 ba e3    65 0f c0 4d   dc 9b 97 38   b9 94 57 75   ab 8b 89 35
+  c6 9b 70 92   92 c6 9b 70    74 c7 e8 d0   90 49 fe 81   e4 8e 16 51   40 7f f1 05
+  9b e5 51 16   51 16 9b e5    70 ff e8 2a   37 df 72 15   47 20 9a 3f   f0 fc 18 3f
+  de 9d 75 74   9d 75 74 de    75 3f ca 9c   b0 e9 3f a7   c5 d6 f5 3b   c4 e4 4e 2f
+    Start         : 4dc69bde769be59dba705175e3921674
+    InvShiftRows  : 4d92519d76c61675ba9b9b74e370e5de
+    InvSubBytes   : 657470750fc7ff3fc0e8e8ca4dd02a9c
+    RoundKey 1    : dc9037b09b49dfe997fe723f388115a7
+    AddRoundKey   : b9e447c5948e20d657169af575513f3b
+    InvMixColumns : ab40f0c48b7ffce489f1184e35053f2f
+
+------------------------------------------------------------------------------
+ ROUND 10  (vong cuoi - KHONG co InvMixColumns)
+------------------------------------------------------------------------------
+  Start         InvShiftRows   InvSubBytes   RoundKey 0    AddRoundKey
+  ab 8b 89 35   ab 8b 89 35    0e ce f2 d9   0f 47 0c af   01 89 fe 76
+  40 7f f1 05   05 40 7f f1    36 72 6b 2b   15 d9 b7 7f   23 ab dc 54
+  f0 fc 18 3f   18 3f f0 fc    34 25 17 55   71 e8 ad 67   45 cd ba 32
+  c4 e4 4e 2f   e4 4e 2f c4    ae b6 4e 88   c9 59 d6 98   67 ef 98 10
+    Start         : ab40f0c48b7ffce489f1184e35053f2f
+    InvShiftRows  : ab0518e48b403f4e897ff02f35f1fcc4
+    InvSubBytes   : 0e3634aece7225b6f26b174ed92b5588
+    RoundKey 0    : 0f1571c947d9e8590cb7add6af7f6798
+    AddRoundKey   : 0123456789abcdeffedcba9876543210
+
+------------------------------------------------------------------------------
+ OUTPUT
+------------------------------------------------------------------------------
+  PLAINTEXT = 0123456789abcdeffedcba9876543210
+
+##############################################################################
+ RESULT - AES-128: AES vi du giao trinh Stallings
+##############################################################################
+  Key                   : 0f1571c947d9e8590cb7add6af7f6798
+  Plaintext             : 0123456789abcdeffedcba9876543210
+  Ciphertext (tinh duoc): ff0b844a0853bf7c6934ab4364148fb9
+  Ciphertext mong doi   : ff0b844a0853bf7c6934ab4364148fb9   -> PASS (khop)
+  Decrypt(Ciphertext)   : 0123456789abcdeffedcba9876543210   -> PASS (giai ma ra dung ban ro)
+##############################################################################
+

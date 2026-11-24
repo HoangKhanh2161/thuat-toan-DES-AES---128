@@ -6,7 +6,7 @@ REM ==================================================================
 cd /d "%~dp0"
 
 echo Dang bien dich...
-g++ -std=c++17 -Wall -O2 -Iinclude src\main.cpp src\utils.cpp src\des.cpp src\aes.cpp -o des_aes.exe
+g++ -std=c++17 -Wall -O2 -static -Iinclude src\main.cpp src\utils.cpp src\des.cpp src\aes.cpp -o des_aes.exe
 
 if errorlevel 1 (
     echo.

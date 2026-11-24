@@ -6,6 +6,7 @@
 //    des_aes.exe des                   -> chạy tất cả test vector DES (in mọi trạng thái)
 //    des_aes.exe aes                   -> chạy tất cả test vector AES (in mọi trạng thái)
 //    des_aes.exe check                 -> kiểm tra nhanh, chỉ in PASS/FAIL
+//    des_aes.exe export                -> ghi kết quả từng test vector ra thư mục results/
 //    des_aes.exe des <khoa> <ban_ro>   -> chạy DES với khoá, bản rõ tự nhập (hex)
 //    des_aes.exe aes <khoa> <ban_ro>   -> chạy AES với khoá, bản rõ tự nhập (hex)
 // =====================================================================
@@ -15,6 +16,7 @@
 #include "utils.h"
 
 #include <cctype>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -83,8 +85,7 @@ static bool runDes(const TestVector& tv, bool verbose) {
                             expected, toHex(decrypted, 16));
     }
     bool ok = (expected.empty() || toHex(ciphertext, 16) == expected) && decrypted == plaintext;
-    cout << "  [" << (ok ? "PASS" : "FAIL") << "] " << tv.name << "  -> ciphertext = " << toHex(ciphertext, 16)
-         << "\n";
+    cout << "[" << (ok ? "PASS" : "FAIL") << "]  " << toHex(ciphertext, 16) << "  " << tv.name << "\n";
     return ok;
 }
 
@@ -118,7 +119,7 @@ static bool runAes(const TestVector& tv, bool verbose) {
     }
     bool ok = (expected.empty() || normalizeHex(ctHex) == expected) &&
               bytesToHex(decrypted, 16) == bytesToHex(plaintext, 16);
-    cout << "  [" << (ok ? "PASS" : "FAIL") << "] " << tv.name << "  -> ciphertext = " << ctHex << "\n";
+    cout << "[" << (ok ? "PASS" : "FAIL") << "]  " << ctHex << "  " << tv.name << "\n";
     return ok;
 }
 
@@ -135,19 +136,62 @@ static bool runAllAes() {
     return allOk;
 }
 
-// Kiểm tra nhanh: chỉ in PASS / FAIL cho từng test vector
+// Kiểm tra nhanh: chỉ in PASS / FAIL cho từng test vector.
+// Cột "File" là tên file trong thư mục results/ chứa đầy đủ các trạng thái của test vector đó.
 static bool quickCheck() {
     bool allOk = true;
     printLine('=');
     cout << " KIEM TRA NHANH TAT CA TEST VECTOR\n";
     printLine('=');
     cout << " DES:\n";
-    for (const TestVector& tv : DES_TEST_VECTORS) allOk = runDes(tv, false) && allOk;
-    cout << " AES-128:\n";
-    for (const TestVector& tv : AES_TEST_VECTORS) allOk = runAes(tv, false) && allOk;
+    cout << "  File       Ket qua Ciphertext        Test vector\n";
+    for (size_t i = 0; i < DES_TEST_VECTORS.size(); i++) {
+        cout << "  DES_" << (i + 1) << ".txt  ";
+        allOk = runDes(DES_TEST_VECTORS[i], false) && allOk;
+    }
+    cout << "\n AES-128:\n";
+    cout << "  File       Ket qua Ciphertext                        Test vector\n";
+    for (size_t i = 0; i < AES_TEST_VECTORS.size(); i++) {
+        cout << "  AES_" << (i + 1) << ".txt  ";
+        allOk = runAes(AES_TEST_VECTORS[i], false) && allOk;
+    }
     printLine('=');
     cout << (allOk ? " TAT CA DEU PASS" : " CO TEST BI FAIL!") << "\n";
     printLine('=');
+    return allOk;
+}
+
+// Chạy 1 test vector nhưng ghi toàn bộ output vào file thay vì màn hình.
+// Cách làm: tạm thời "nối" cout vào file, chạy xong thì trả cout về màn hình.
+static bool runToFile(const string& path, bool isDes, const TestVector& tv) {
+    std::ofstream file(path);
+    if (!file) {
+        cout << "[LOI] Khong tao duoc file " << path << " (thu muc results da ton tai chua?)\n";
+        return false;
+    }
+    std::streambuf* screen = cout.rdbuf(file.rdbuf());  // cout -> file
+    bool ok = isDes ? runDes(tv, true) : runAes(tv, true);
+    cout.rdbuf(screen);                                 // cout -> màn hình
+    cout << "  Da ghi " << path << "  [" << (ok ? "PASS" : "FAIL") << "]  " << tv.name << "\n";
+    return ok;
+}
+
+// Ghi kết quả của TỪNG test vector ra 1 file riêng trong thư mục `dir` (thư mục phải có sẵn):
+//   DES_1.txt, DES_2.txt, ..., AES_1.txt, AES_2.txt, ...  và summary.txt (bảng PASS/FAIL)
+static bool exportResults(const string& dir) {
+    bool allOk = true;
+    for (size_t i = 0; i < DES_TEST_VECTORS.size(); i++)
+        allOk = runToFile(dir + "/DES_" + std::to_string(i + 1) + ".txt", true, DES_TEST_VECTORS[i]) && allOk;
+    for (size_t i = 0; i < AES_TEST_VECTORS.size(); i++)
+        allOk = runToFile(dir + "/AES_" + std::to_string(i + 1) + ".txt", false, AES_TEST_VECTORS[i]) && allOk;
+
+    // Bảng tổng hợp: ghi vào summary.txt và in ra màn hình
+    std::ofstream summary(dir + "/summary.txt");
+    std::streambuf* screen = cout.rdbuf(summary.rdbuf());
+    quickCheck();
+    cout.rdbuf(screen);
+    cout << "  Da ghi " << dir << "/summary.txt\n\n";
+    quickCheck();
     return allOk;
 }
 
@@ -249,6 +293,7 @@ static void printUsage() {
          << "  des_aes des                  (chay tat ca test vector DES)\n"
          << "  des_aes aes                  (chay tat ca test vector AES-128)\n"
          << "  des_aes check                (kiem tra nhanh PASS/FAIL)\n"
+         << "  des_aes export               (ghi ket qua tung test vector vao thu muc results/)\n"
          << "  des_aes des <khoa> <ban_ro>  (DES voi du lieu tu nhap, hex 16 ky tu)\n"
          << "  des_aes aes <khoa> <ban_ro>  (AES voi du lieu tu nhap, hex 32 ky tu)\n";
 }
@@ -263,6 +308,7 @@ int main(int argc, char* argv[]) {
     if (mode == "des" && argc == 2) return runAllDes() ? 0 : 1;
     if (mode == "aes" && argc == 2) return runAllAes() ? 0 : 1;
     if (mode == "check" && argc == 2) return quickCheck() ? 0 : 1;
+    if (mode == "export" && argc == 2) return exportResults("results") ? 0 : 1;
 
     if ((mode == "des" || mode == "aes") && (argc == 4 || argc == 5)) {
         TestVector tv{"Du lieu tu nhap (tham so dong lenh)", argv[2], argv[3], argc == 5 ? argv[4] : ""};

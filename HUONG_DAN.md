@@ -46,7 +46,7 @@ cd thuat-toan-DES-AES---128
 
 **Cách 2 – tự gõ lệnh** trong cmd (đứng ở thư mục chứa code):
 ```
-g++ -std=c++17 -Wall -O2 -Iinclude src/main.cpp src/utils.cpp src/des.cpp src/aes.cpp -o des_aes.exe
+g++ -std=c++17 -Wall -O2 -static -Iinclude src/main.cpp src/utils.cpp src/des.cpp src/aes.cpp -o des_aes.exe
 ```
 Giải thích lệnh:
 | Phần | Ý nghĩa |
@@ -55,6 +55,7 @@ Giải thích lệnh:
 | `-std=c++17` | dùng chuẩn C++17 |
 | `-Wall` | bật cảnh báo để phát hiện lỗi |
 | `-O2` | tối ưu cho chạy nhanh |
+| `-static` | gói luôn thư viện C++ vào file exe → chạy được trên mọi máy, tránh lỗi thiếu / nhầm file `.dll` |
 | `-Iinclude` | tìm các file `.h` trong thư mục `include` |
 | `src/....cpp` | **4 file** cần biên dịch cùng lúc (chương trình được tách thành nhiều file) |
 | `-o des_aes.exe` | đặt tên file chạy là `des_aes.exe` |
@@ -101,16 +102,17 @@ Output rất dài (mỗi vòng in nhiều dòng). Nếu muốn đọc thoải m�
 
 ## Bước 5. Ghi kết quả ra file
 
-**Cách 1:** nhấp đúp `run_tests.bat` → tự biên dịch, chạy hết các ví dụ và ghi vào thư mục `results/`:
-- `results/des_result.txt` – mọi trạng thái của DES
-- `results/aes_result.txt` – mọi trạng thái của AES-128
-- `results/summary.txt` – bảng PASS / FAIL
+**Cách 1:** nhấp đúp `run_tests.bat` → tự biên dịch, chạy hết các ví dụ và ghi **mỗi test vector ra 1 file** trong thư mục `results/`:
+- `results/DES_1.txt`, `DES_2.txt`, ... – mọi trạng thái của từng test vector DES
+- `results/AES_1.txt`, `AES_2.txt`, ... – mọi trạng thái của từng test vector AES-128
+- `results/summary.txt` – bảng PASS / FAIL, cho biết file nào ứng với test vector nào
 
-**Cách 2:** tự gõ, dấu `>` nghĩa là "ghi output vào file thay vì in ra màn hình":
+**Cách 2:** gõ `des_aes.exe export` (làm đúng như Cách 1, nhưng không biên dịch lại).
+
+**Cách 3:** tự ghi 1 ví dụ bất kỳ ra file – dấu `>` nghĩa là "ghi output vào file thay vì in ra màn hình":
 ```
-des_aes.exe des > des_result.txt
-des_aes.exe aes > aes_result.txt
 des_aes.exe des 133457799BBCDFF1 0123456789ABCDEF > vi_du_cua_toi.txt
+des_aes.exe aes 2b7e151628aed2a6abf7158809cf4f3c 3243f6a8885a308d313198a2e0370734 > vi_du_aes.txt
 ```
 
 ---
@@ -146,6 +148,7 @@ Phần giải thích thuật toán xem trong [README.md](README.md).
 
 | Lỗi | Cách sửa |
 |---|---|
+| Chạy exe báo lỗi *entry point not found* / thiếu `libstdc++-6.dll` | Biên dịch lại bằng lệnh có `-static` (build.bat đã có sẵn) |
 | `'g++' is not recognized...` | Chưa cài g++ hoặc chưa thêm vào Path → xem Bước 1, nhớ mở lại cmd |
 | `fatal error: des.h: No such file or directory` | Thiếu `-Iinclude` trong lệnh, hoặc đang đứng sai thư mục (phải `cd` vào thư mục chứa `src` và `include`) |
 | `undefined reference to ...` | Thiếu file `.cpp` trong lệnh biên dịch – phải có đủ cả 4 file trong `src/` |

@@ -7,7 +7,98 @@ và **in ra giá trị của từng trạng thái** trong quá trình mã hoá /
 
 ---
 
-## 1. Cấu trúc thư mục
+## 1. Kết quả chạy các test vector
+
+Mỗi test vector được **mã hoá**, rồi **giải mã ngược lại**. Chương trình so sánh bản mã tính được với bản mã mong đợi
+và kiểm tra giải mã có ra lại đúng bản rõ không.
+
+👉 **Bấm vào tên file ở cột đầu** để xem toàn bộ giá trị kiểm định của từng trạng thái (khoá con, từng vòng, từng bước,
+cả mã hoá lẫn giải mã) của test vector đó.
+
+| File kết quả (bấm để xem) | Thuật toán | Nguồn ví dụ | Khoá | Bản rõ | Bản mã | Kết quả |
+|---|---|---|---|---|---|---|
+| [DES_1.txt](results/DES_1.txt) | DES | J. Orlin Grabbe – *The DES Algorithm Illustrated* | `133457799BBCDFF1` | `0123456789ABCDEF` | `85E813540F0AB405` | ✅ PASS |
+| [DES_2.txt](results/DES_2.txt) | DES | Giáo trình Stallings | `0F1571C947D9E859` | `02468ACEECA86420` | `DA02CE3A89ECAC3B` | ✅ PASS |
+| [DES_3.txt](results/DES_3.txt) | DES | FIPS 81 ("Now is t") | `0123456789ABCDEF` | `4E6F772069732074` | `3FA40E8A984D4815` | ✅ PASS |
+| [DES_4.txt](results/DES_4.txt) | DES | Bản mã toàn số 0 | `0E329232EA6D0D73` | `8787878787878787` | `0000000000000000` | ✅ PASS |
+| [AES_1.txt](results/AES_1.txt) | AES-128 | FIPS-197 Appendix B | `2b7e151628aed2a6abf7158809cf4f3c` | `3243f6a8885a308d313198a2e0370734` | `3925841d02dc09fbdc118597196a0b32` | ✅ PASS |
+| [AES_2.txt](results/AES_2.txt) | AES-128 | FIPS-197 Appendix C.1 | `000102030405060708090a0b0c0d0e0f` | `00112233445566778899aabbccddeeff` | `69c4e0d86a7b0430d8cdb78070b4c55a` | ✅ PASS |
+| [AES_3.txt](results/AES_3.txt) | AES-128 | Giáo trình Stallings | `0f1571c947d9e8590cb7add6af7f6798` | `0123456789abcdeffedcba9876543210` | `ff0b844a0853bf7c6934ab4364148fb9` | ✅ PASS |
+| [AES_4.txt](results/AES_4.txt) | AES-128 | "Thats my Kung Fu" / "Two One Nine Two" | `5468617473206d79204b756e67204675` | `54776f204f6e65204e696e652054776f` | `29c3505f571420f6402299b31a02d73a` | ✅ PASS |
+
+Bảng tổng hợp do chính chương trình in ra (file [results/summary.txt](results/summary.txt)):
+
+```text
+==============================================================================
+ KIEM TRA NHANH TAT CA TEST VECTOR
+==============================================================================
+ DES:
+  File       Ket qua Ciphertext        Test vector
+  DES_1.txt  [PASS]  85E813540F0AB405  DES vi du kinh dien (J. Orlin Grabbe)
+  DES_2.txt  [PASS]  DA02CE3A89ECAC3B  DES vi du giao trinh Stallings
+  DES_3.txt  [PASS]  3FA40E8A984D4815  DES 'Now is t' (FIPS 81)
+  DES_4.txt  [PASS]  0000000000000000  DES ban ma toan so 0
+
+ AES-128:
+  File       Ket qua Ciphertext                        Test vector
+  AES_1.txt  [PASS]  3925841d02dc09fbdc118597196a0b32  AES FIPS-197 Appendix B
+  AES_2.txt  [PASS]  69c4e0d86a7b0430d8cdb78070b4c55a  AES FIPS-197 Appendix C.1
+  AES_3.txt  [PASS]  ff0b844a0853bf7c6934ab4364148fb9  AES vi du giao trinh Stallings
+  AES_4.txt  [PASS]  29c3505f571420f6402299b31a02d73a  AES 'Two One Nine Two' / 'Thats my Kung Fu'
+==============================================================================
+ TAT CA DEU PASS
+==============================================================================
+```
+
+Ví dụ một đoạn trong [DES_1.txt](results/DES_1.txt) (vòng 1 của DES):
+
+```text
+------------------------------------------------------------------------------
+ ROUND 1   (subkey K1)
+------------------------------------------------------------------------------
+  E(R0)               = 7A15557A1555     = 011110 100001 010101 010101 011110 100001 010101 010101
+  K1                  = 1B02EFFC7072     = 000110 110000 001011 101111 111111 000111 000001 110010
+  E(R0) XOR K1        = 6117BA866527     = 011000 010001 011110 111010 100001 100110 010100 100111
+  S-boxes (input 6 bit -> row = bit1 bit6, col = bit2..bit5):
+     S1: 011000 -> row 0, col 12 ->  5 = 0101
+     S2: 010001 -> row 1, col  8 -> 12 = 1100
+     S3: 011110 -> row 0, col 15 ->  8 = 1000
+     S4: 111010 -> row 2, col 13 ->  2 = 0010
+     S5: 100001 -> row 3, col  0 -> 11 = 1011
+     S6: 100110 -> row 2, col  3 ->  5 = 0101
+     S7: 010100 -> row 0, col 10 ->  9 = 1001
+     S8: 100111 -> row 3, col  3 ->  7 = 0111
+  S-box output        = 5C82B597         = 0101 1100 1000 0010 1011 0101 1001 0111
+  f = P(S-box output) = 234AA9BB         = 0010 0011 0100 1010 1010 1001 1011 1011
+  L1 = R0             = F0AAF0AA         = 1111 0000 1010 1010 1111 0000 1010 1010
+  R1 = L0 XOR f       = EF4A6544         = 1110 1111 0100 1010 0110 0101 0100 0100
+```
+
+Ví dụ một đoạn trong [AES_1.txt](results/AES_1.txt) (vòng 1 của AES-128):
+
+```text
+------------------------------------------------------------------------------
+ ROUND 1
+------------------------------------------------------------------------------
+  Start         SubBytes      ShiftRows     MixColumns    RoundKey 1    AddRoundKey
+  19 a0 9a e9   d4 e0 b8 1e   d4 e0 b8 1e   04 e0 48 28   a0 88 23 2a   a4 68 6b 02
+  3d f4 c6 f8   27 bf b4 41   bf b4 41 27   66 cb f8 06   fa 54 a3 6c   9c 9f 5b 6a
+  e3 e2 8d 48   11 98 5d 52   5d 52 11 98   81 19 d3 26   fe 2c 39 76   7f 35 ea 50
+  be 2b 2a 08   ae f1 e5 30   30 ae f1 e5   e5 9a 7a 4c   17 b1 39 05   f2 2b 43 49
+    Start         : 193de3bea0f4e22b9ac68d2ae9f84808
+    SubBytes      : d42711aee0bf98f1b8b45de51e415230
+    ShiftRows     : d4bf5d30e0b452aeb84111f11e2798e5
+    MixColumns    : 046681e5e0cb199a48f8d37a2806264c
+    RoundKey 1    : a0fafe1788542cb123a339392a6c7605
+    AddRoundKey   : a49c7ff2689f352b6b5bea43026a5049
+```
+
+**Muốn kiểm tra ví dụ làm trên bảng?** Mở [`include/test_vectors.h`](include/test_vectors.h), thêm 1 dòng theo mẫu
+rồi chạy lại `run_tests.bat` — hoặc chọn mục 3 / 4 trong menu để gõ trực tiếp khoá và bản rõ.
+
+---
+
+## 2. Cấu trúc thư mục
 
 ```
 thuat-toan-DES-AES---128/
@@ -23,10 +114,10 @@ thuat-toan-DES-AES---128/
 │   ├── aes.cpp              #   cài đặt AES-128 (mở rộng khoá, SubBytes, ShiftRows, MixColumns...)
 │   ├── utils.cpp            #   cài đặt hàm tiện ích
 │   └── main.cpp             #   chương trình chính: menu, chạy test vector, so sánh PASS/FAIL
-├── results/                 # KẾT QUẢ CHẠY THUẬT TOÁN
-│   ├── des_result.txt       #   mọi trạng thái của DES cho từng test vector
-│   ├── aes_result.txt       #   mọi trạng thái của AES-128 cho từng test vector
-│   └── summary.txt          #   bảng tổng hợp PASS / FAIL
+├── results/                 # KẾT QUẢ CHẠY THUẬT TOÁN (mỗi test vector 1 file)
+│   ├── DES_1.txt .. DES_4.txt   # mọi trạng thái của từng test vector DES
+│   ├── AES_1.txt .. AES_4.txt   # mọi trạng thái của từng test vector AES-128
+│   └── summary.txt              # bảng tổng hợp PASS / FAIL
 ├── build.bat                # Windows: biên dịch
 ├── run_tests.bat            # Windows: biên dịch + chạy hết test vector + ghi vào results/
 ├── Makefile                 # Linux / macOS: make, make results
@@ -34,39 +125,21 @@ thuat-toan-DES-AES---128/
 └── README.md
 ```
 
-Chỉ dùng thư viện chuẩn của C++ (`<iostream>`, `<string>`, `<vector>`, `<cstdint>`, `<iomanip>`), không cần cài thêm gì.
+Chỉ dùng thư viện chuẩn của C++ (`<iostream>`, `<fstream>`, `<string>`, `<vector>`, `<cstdint>`, `<iomanip>`), không cần cài thêm gì.
 
-## 2. Chạy nhanh
+## 3. Chạy nhanh
 
 ```bash
 # Windows: nhấp đúp run_tests.bat, hoặc:
-g++ -std=c++17 -Wall -O2 -Iinclude src/main.cpp src/utils.cpp src/des.cpp src/aes.cpp -o des_aes.exe
+g++ -std=c++17 -Wall -O2 -static -Iinclude src/main.cpp src/utils.cpp src/des.cpp src/aes.cpp -o des_aes.exe
 des_aes.exe            # hiện menu
-des_aes.exe des        # chạy tất cả test vector DES, in mọi trạng thái
-des_aes.exe aes        # chạy tất cả test vector AES-128, in mọi trạng thái
+des_aes.exe export     # ghi kết quả từng test vector vào thư mục results/ (DES_1.txt, AES_1.txt, ...)
+des_aes.exe des        # in ra màn hình mọi trạng thái của tất cả test vector DES
+des_aes.exe aes        # in ra màn hình mọi trạng thái của tất cả test vector AES-128
 des_aes.exe check      # chỉ in PASS / FAIL
 des_aes.exe des 133457799BBCDFF1 0123456789ABCDEF                 # DES với khoá + bản rõ tự chọn
 des_aes.exe aes 2b7e151628aed2a6abf7158809cf4f3c 3243f6a8885a308d313198a2e0370734
 ```
-
-## 3. Kết quả kiểm định (test vector)
-
-Mỗi test vector được **mã hoá** rồi **giải mã ngược lại**; chương trình so sánh bản mã với giá trị mong đợi
-và kiểm tra giải mã có ra lại đúng bản rõ hay không. Toàn bộ kết quả nằm trong thư mục [`results/`](results/).
-
-| # | Thuật toán | Nguồn ví dụ | Khoá | Bản rõ | Bản mã | Kết quả |
-|---|---|---|---|---|---|---|
-| 1 | DES | J. Orlin Grabbe – *The DES Algorithm Illustrated* | `133457799BBCDFF1` | `0123456789ABCDEF` | `85E813540F0AB405` | ✅ PASS |
-| 2 | DES | Giáo trình Stallings | `0F1571C947D9E859` | `02468ACEECA86420` | `DA02CE3A89ECAC3B` | ✅ PASS |
-| 3 | DES | FIPS 81 ("Now is t") | `0123456789ABCDEF` | `4E6F772069732074` | `3FA40E8A984D4815` | ✅ PASS |
-| 4 | DES | Bản mã toàn số 0 | `0E329232EA6D0D73` | `8787878787878787` | `0000000000000000` | ✅ PASS |
-| 5 | AES-128 | FIPS-197 Appendix B | `2b7e151628aed2a6abf7158809cf4f3c` | `3243f6a8885a308d313198a2e0370734` | `3925841d02dc09fbdc118597196a0b32` | ✅ PASS |
-| 6 | AES-128 | FIPS-197 Appendix C.1 | `000102030405060708090a0b0c0d0e0f` | `00112233445566778899aabbccddeeff` | `69c4e0d86a7b0430d8cdb78070b4c55a` | ✅ PASS |
-| 7 | AES-128 | Giáo trình Stallings | `0f1571c947d9e8590cb7add6af7f6798` | `0123456789abcdeffedcba9876543210` | `ff0b844a0853bf7c6934ab4364148fb9` | ✅ PASS |
-| 8 | AES-128 | "Thats my Kung Fu" / "Two One Nine Two" | `5468617473206d79204b756e67204675` | `54776f204f6e65204e696e652054776f` | `29c3505f571420f6402299b31a02d73a` | ✅ PASS |
-
-**Muốn kiểm tra ví dụ làm trên bảng?** Mở [`include/test_vectors.h`](include/test_vectors.h), thêm 1 dòng theo mẫu
-rồi chạy lại `run_tests.bat` — hoặc chọn mục 3 / 4 trong menu để gõ trực tiếp khoá và bản rõ.
 
 ---
 
@@ -93,7 +166,7 @@ DES mã hoá **khối 64 bit** với **khoá 64 bit** (thật ra chỉ dùng 56 
 ### 4.4. Giải mã
 Giống hệt mã hoá, chỉ dùng khoá con theo **thứ tự ngược**: K16, K15, ..., K1.
 
-### 4.5. Chương trình in ra những gì (file `results/des_result.txt`)
+### 4.5. Chương trình in ra những gì (file `results/DES_*.txt`)
 - Khoá K, `K+ = PC-1(K)`, `C0`, `D0`, rồi bảng 16 dòng: số bit dịch, `C_i`, `D_i`, `K_i` (hex và nhị phân).
 - `IP(M)`, `L0`, `R0`.
 - Mỗi vòng: `E(R)`, `K_i`, `E(R) XOR K_i`, **từng hộp S** (6 bit vào → hàng, cột → giá trị ra), đầu ra S-box, `f = P(...)`, `L_i`, `R_i`.
@@ -130,7 +203,7 @@ Phép nhân trong GF(2⁸) dùng hàm `xtime` (nhân 2 = dịch trái 1 bit, n�
 - **Vòng 10**: SubBytes → ShiftRows → AddRoundKey(K10) *(không có MixColumns)*
 - **Giải mã** làm ngược lại: InvShiftRows → InvSubBytes → AddRoundKey → InvMixColumns, dùng khoá K10 → K0.
 
-### 5.4. Chương trình in ra những gì (file `results/aes_result.txt`)
+### 5.4. Chương trình in ra những gì (file `results/AES_*.txt`)
 - Bảng mở rộng khoá giống FIPS-197 Appendix A: `temp`, `RotWord`, `SubWord`, `Rcon`, `XOR Rcon`, `w[i-4]`, `w[i]`, và 11 khoá vòng `K0..K10`.
 - Mỗi vòng: các **ma trận 4×4 đặt cạnh nhau** — Start, SubBytes, ShiftRows, MixColumns, RoundKey, AddRoundKey — kèm dạng 1 dòng hex 32 ký tự để dễ so sánh.
 - Toàn bộ quá trình giải mã tương tự.
