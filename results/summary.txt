@@ -1,15 +1,13 @@
 ==============================================================================
- KIEM TRA NHANH TAT CA TEST VECTOR
+ KIEM TRA NHANH
 ==============================================================================
  DES:
-  File       Ket qua Ciphertext        Test vector
   DES_1.txt  [PASS]  85E813540F0AB405  DES vi du kinh dien (J. Orlin Grabbe)
   DES_2.txt  [PASS]  DA02CE3A89ECAC3B  DES vi du giao trinh Stallings
   DES_3.txt  [PASS]  3FA40E8A984D4815  DES 'Now is t' (FIPS 81)
   DES_4.txt  [PASS]  0000000000000000  DES ban ma toan so 0
 
  AES-128:
-  File       Ket qua Ciphertext                        Test vector
   AES_1.txt  [PASS]  3925841d02dc09fbdc118597196a0b32  AES FIPS-197 Appendix B
   AES_2.txt  [PASS]  69c4e0d86a7b0430d8cdb78070b4c55a  AES FIPS-197 Appendix C.1
   AES_3.txt  [PASS]  ff0b844a0853bf7c6934ab4364148fb9  AES vi du giao trinh Stallings

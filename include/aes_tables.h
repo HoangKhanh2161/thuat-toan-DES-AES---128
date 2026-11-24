@@ -1,8 +1,4 @@
-// =====================================================================
-//  aes_tables.h - Các bảng hằng số của AES (theo chuẩn FIPS-197)
-//
-//  File này chỉ được include trong aes.cpp.
-// =====================================================================
+// aes_tables.h - Các bảng của AES (chuẩn FIPS-197)
 #ifndef AES_TABLES_H
 #define AES_TABLES_H
 
@@ -51,10 +47,9 @@ static const uint8_t AES_INV_SBOX[256] = {
     0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d   // f
 };
 
-// ---------- Hằng số vòng Rcon (dùng khi mở rộng khoá) ----------
-// Rcon[i] = x^(i-1) trong GF(2^8), đặt ở byte trái nhất của word.
+// ---------- Hằng số Rcon dùng khi mở rộng khoá ----------
 static const uint32_t AES_RCON[11] = {
-    0x00000000,  // không dùng (cho chỉ số bắt đầu từ 1 cho dễ đọc)
+    0x00000000,  // không dùng (để chỉ số bắt đầu từ 1)
     0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000,
     0x20000000, 0x40000000, 0x80000000, 0x1b000000, 0x36000000
 };

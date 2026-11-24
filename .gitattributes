@@ -1,7 +1,7 @@
-# Giu dung kieu xuong dong cho tung loai file
-*.bat text eol=crlf
+# Kieu xuong dong cho tung loai file
 *.cpp text eol=lf
 *.h   text eol=lf
 *.md  text eol=lf
 *.txt text eol=lf
+*.json text eol=lf
 Makefile text eol=lf

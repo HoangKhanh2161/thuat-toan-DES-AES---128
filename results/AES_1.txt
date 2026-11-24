@@ -1,24 +1,21 @@
-
-
 ******************************************************************************
  TEST VECTOR: AES FIPS-197 Appendix B
 ******************************************************************************
-
 ==============================================================================
- AES-128 ENCRYPTION
+ AES-128 - MA HOA
 ==============================================================================
   Key       = 2b7e151628aed2a6abf7158809cf4f3c
   Plaintext = 3243f6a8885a308d313198a2e0370734
 
 ------------------------------------------------------------------------------
- KEY EXPANSION - mo rong khoa 128 bit thanh 44 word w[0..43]
+ KEY EXPANSION
 ------------------------------------------------------------------------------
-  w[ 0] = 2b7e1516   (lay truc tiep tu khoa)
-  w[ 1] = 28aed2a6   (lay truc tiep tu khoa)
-  w[ 2] = abf71588   (lay truc tiep tu khoa)
-  w[ 3] = 09cf4f3c   (lay truc tiep tu khoa)
+  w[ 0] = 2b7e1516
+  w[ 1] = 28aed2a6
+  w[ 2] = abf71588
+  w[ 3] = 09cf4f3c
 
-   i  temp      RotWord   SubWord   Rcon      XOR Rcon  w[i-4]    w[i] = temp XOR w[i-4]
+   i  temp      RotWord   SubWord   Rcon      XOR Rcon  w[i-4]    w[i]
    4  09cf4f3c  cf4f3c09  8a84eb01  01000000  8b84eb01  2b7e1516  a0fafe17
    5  a0fafe17                                          28aed2a6  88542cb1
    6  88542cb1                                          abf71588  23a33939
@@ -60,21 +57,21 @@
   42  c9ee2589                                          28d12941  e13f0cc8
   43  e13f0cc8                                          575c006e  b6630ca6
 
-  Round keys (moi khoa vong = 4 word lien tiep):
-  K0  = w[ 0.. 3] = 2b7e151628aed2a6abf7158809cf4f3c
-  K1  = w[ 4.. 7] = a0fafe1788542cb123a339392a6c7605
-  K2  = w[ 8..11] = f2c295f27a96b9435935807a7359f67f
-  K3  = w[12..15] = 3d80477d4716fe3e1e237e446d7a883b
-  K4  = w[16..19] = ef44a541a8525b7fb671253bdb0bad00
-  K5  = w[20..23] = d4d1c6f87c839d87caf2b8bc11f915bc
-  K6  = w[24..27] = 6d88a37a110b3efddbf98641ca0093fd
-  K7  = w[28..31] = 4e54f70e5f5fc9f384a64fb24ea6dc4f
-  K8  = w[32..35] = ead27321b58dbad2312bf5607f8d292f
-  K9  = w[36..39] = ac7766f319fadc2128d12941575c006e
-  K10 = w[40..43] = d014f9a8c9ee2589e13f0cc8b6630ca6
+  Khoa vong:
+  K0  = 2b7e151628aed2a6abf7158809cf4f3c
+  K1  = a0fafe1788542cb123a339392a6c7605
+  K2  = f2c295f27a96b9435935807a7359f67f
+  K3  = 3d80477d4716fe3e1e237e446d7a883b
+  K4  = ef44a541a8525b7fb671253bdb0bad00
+  K5  = d4d1c6f87c839d87caf2b8bc11f915bc
+  K6  = 6d88a37a110b3efddbf98641ca0093fd
+  K7  = 4e54f70e5f5fc9f384a64fb24ea6dc4f
+  K8  = ead27321b58dbad2312bf5607f8d292f
+  K9  = ac7766f319fadc2128d12941575c006e
+  K10 = d014f9a8c9ee2589e13f0cc8b6630ca6
 
 ------------------------------------------------------------------------------
- ROUND 0  (chi co AddRoundKey voi K0)
+ ROUND 0
 ------------------------------------------------------------------------------
   Input         RoundKey 0    AddRoundKey
   32 88 31 e0   2b 28 ab 09   19 a0 9a e9
@@ -221,7 +218,7 @@
     AddRoundKey   : eb40f21e592e38848ba113e71bc342d2
 
 ------------------------------------------------------------------------------
- ROUND 10  (vong cuoi - KHONG co MixColumns)
+ ROUND 10  (khong co MixColumns)
 ------------------------------------------------------------------------------
   Start         SubBytes      ShiftRows     RoundKey 10   AddRoundKey
   eb 59 8b 1b   e9 cb 3d af   e9 cb 3d af   d0 c9 e1 b6   39 02 dc 19
@@ -237,17 +234,17 @@
 ------------------------------------------------------------------------------
  OUTPUT
 ------------------------------------------------------------------------------
-  CIPHERTEXT = 3925841d02dc09fbdc118597196a0b32
+  Ciphertext = 3925841d02dc09fbdc118597196a0b32
 
 
 ==============================================================================
- AES-128 DECRYPTION  (dung khoa vong theo thu tu nguoc K10 -> K0)
+ AES-128 - GIAI MA (khoa vong dung nguoc K10 -> K0)
 ==============================================================================
   Key        = 2b7e151628aed2a6abf7158809cf4f3c
   Ciphertext = 3925841d02dc09fbdc118597196a0b32
 
 ------------------------------------------------------------------------------
- ROUND 0  (chi co AddRoundKey voi K10)
+ ROUND 0
 ------------------------------------------------------------------------------
   Input         RoundKey 10   AddRoundKey
   39 02 dc 19   d0 c9 e1 b6   e9 cb 3d af
@@ -394,7 +391,7 @@
     InvMixColumns : d4bf5d30e0b452aeb84111f11e2798e5
 
 ------------------------------------------------------------------------------
- ROUND 10  (vong cuoi - KHONG co InvMixColumns)
+ ROUND 10  (khong co InvMixColumns)
 ------------------------------------------------------------------------------
   Start         InvShiftRows   InvSubBytes   RoundKey 0    AddRoundKey
   d4 e0 b8 1e   d4 e0 b8 1e    19 a0 9a e9   2b 28 ab 09   32 88 31 e0
@@ -410,15 +407,14 @@
 ------------------------------------------------------------------------------
  OUTPUT
 ------------------------------------------------------------------------------
-  PLAINTEXT = 3243f6a8885a308d313198a2e0370734
+  Plaintext = 3243f6a8885a308d313198a2e0370734
 
 ##############################################################################
- RESULT - AES-128: AES FIPS-197 Appendix B
+ KET QUA: AES FIPS-197 Appendix B
 ##############################################################################
-  Key                   : 2b7e151628aed2a6abf7158809cf4f3c
-  Plaintext             : 3243f6a8885a308d313198a2e0370734
-  Ciphertext (tinh duoc): 3925841d02dc09fbdc118597196a0b32
-  Ciphertext mong doi   : 3925841d02dc09fbdc118597196a0b32   -> PASS (khop)
-  Decrypt(Ciphertext)   : 3243f6a8885a308d313198a2e0370734   -> PASS (giai ma ra dung ban ro)
+  Key        : 2b7e151628aed2a6abf7158809cf4f3c
+  Plaintext  : 3243f6a8885a308d313198a2e0370734
+  Ciphertext : 3925841d02dc09fbdc118597196a0b32
+  Expected   : 3925841d02dc09fbdc118597196a0b32  -> PASS
+  Decrypt    : 3243f6a8885a308d313198a2e0370734  -> PASS
 ##############################################################################
-

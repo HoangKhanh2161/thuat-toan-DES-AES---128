@@ -1,0 +1,15 @@
+{
+    // Extension Code Runner: bấm "Run Code" ở file .cpp bất kỳ
+    // -> biên dịch cả 4 file trong src/ rồi chạy chương trình trong Terminal (để nhập được từ bàn phím)
+    "code-runner.runInTerminal": true,
+    "code-runner.saveFileBeforeRun": true,
+    "code-runner.ignoreSelection": true,
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.executorMap": {
+        "cpp": "cd $dir && cd .. && g++ -std=c++17 -O2 -static -Iinclude src/main.cpp src/utils.cpp src/des.cpp src/aes.cpp -o des_aes && .\des_aes"
+    },
+
+    // Extension C/C++: chỉ chỗ chứa file .h để không bị gạch đỏ
+    "C_Cpp.default.includePath": ["${workspaceFolder}/include"],
+    "C_Cpp.default.cppStandard": "c++17"
+}

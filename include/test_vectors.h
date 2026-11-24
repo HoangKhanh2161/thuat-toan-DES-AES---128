@@ -1,19 +1,7 @@
-// =====================================================================
-//  test_vectors.h - Danh sách các bộ dữ liệu kiểm thử (test vector)
-//
-//  MUỐN THÊM VÍ DỤ MỚI (ví dụ làm trên bảng ở lớp)?
-//    -> Chỉ cần thêm 1 dòng vào danh sách bên dưới theo mẫu:
-//         { "Ten vi du", "KHOA (hex)", "BAN RO (hex)", "BAN MA MONG DOI (hex)" },
-//    -> Nếu chưa biết bản mã đúng là gì thì để chuỗi rỗng "" ở cột cuối,
-//       chương trình vẫn chạy và in đủ các trạng thái, chỉ không so sánh.
-//    -> Được phép viết hex có dấu cách, ví dụ "0123 4567 89AB CDEF".
-//
-//  Độ dài:
-//    DES     : khoá 16 ký tự hex (64 bit),  bản rõ 16 ký tự hex (64 bit)
-//    AES-128 : khoá 32 ký tự hex (128 bit), bản rõ 32 ký tự hex (128 bit)
-//
-//  File này chỉ được include trong main.cpp.
-// =====================================================================
+// test_vectors.h - Danh sách test vector
+//   Thêm ví dụ mới: thêm 1 dòng {"Ten", "KHOA", "BAN RO", "BAN MA MONG DOI"},
+//   - Chưa biết bản mã thì để "" ở cột cuối.
+//   - DES: khoá và bản rõ 16 ký tự hex.   AES-128: khoá và bản rõ 32 ký tự hex.
 #ifndef TEST_VECTORS_H
 #define TEST_VECTORS_H
 
@@ -21,10 +9,10 @@
 #include <vector>
 
 struct TestVector {
-    std::string name;       // tên / nguồn của ví dụ
+    std::string name;       // tên ví dụ
     std::string key;        // khoá (hex)
     std::string plaintext;  // bản rõ (hex)
-    std::string expected;   // bản mã mong đợi (hex), "" nếu không có
+    std::string expected;   // bản mã mong đợi (hex)
 };
 
 // ------------------------------- DES ---------------------------------

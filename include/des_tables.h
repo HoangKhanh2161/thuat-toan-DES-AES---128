@@ -1,12 +1,5 @@
-// =====================================================================
-//  des_tables.h - Các bảng hằng số của DES (theo chuẩn FIPS 46-3)
-//
-//  Quy ước đánh số bit giống trong sách / trên bảng:
-//    bit số 1 là bit TRÁI NHẤT (bit có trọng số lớn nhất - MSB).
-//  Ví dụ IP[0] = 58 nghĩa là: bit thứ 1 của đầu ra = bit thứ 58 của đầu vào.
-//
-//  File này chỉ được include trong des.cpp.
-// =====================================================================
+// des_tables.h - Các bảng của DES (chuẩn FIPS 46-3)
+//   Bit đánh số từ 1, tính từ bên trái. Vd: IP[0] = 58 -> bit 1 của kết quả lấy bit 58 của đầu vào.
 #ifndef DES_TABLES_H
 #define DES_TABLES_H
 
@@ -85,10 +78,8 @@ static const int PC2[48] = {
 // ---------- Số bit dịch vòng trái ở mỗi vòng sinh khoá ----------
 static const int SHIFTS[16] = { 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1 };
 
-// ---------- 8 hộp S (S-box): mỗi hộp 4 hàng x 16 cột ----------
-// Đầu vào 6 bit b1 b2 b3 b4 b5 b6:
-//   hàng (row)   = b1 b6        (bit đầu và bit cuối)
-//   cột (column) = b2 b3 b4 b5  (4 bit giữa)
+// ---------- 8 hộp S: mỗi hộp 4 hàng x 16 cột ----------
+// Vào 6 bit b1..b6: hàng = b1 b6, cột = b2 b3 b4 b5
 static const int SBOX[8][4][16] = {
     { // S1
         {14,  4, 13,  1,  2, 15, 11,  8,  3, 10,  6, 12,  5,  9,  0,  7},
